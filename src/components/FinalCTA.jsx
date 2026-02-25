@@ -42,11 +42,15 @@ export default function FinalCTA() {
 
                     <button
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="group overflow-hidden rounded-full bg-obsidian text-white px-10 py-5 font-heading font-medium tracking-wide text-sm transition-transform duration-300 hover:scale-105 active:scale-95 shadow-2xl relative cursor-pointer"
+                        className="group relative overflow-hidden rounded-full bg-obsidian text-white px-12 py-6 font-heading font-medium tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_-5px_rgba(0,0,0,0.8)] hover:-translate-y-1 cursor-pointer"
                     >
-                        <span className="relative z-10 transition-colors duration-300 group-hover:text-white group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                        <span className="relative z-10 block transition-transform duration-300 group-hover:-translate-y-12">
                             Shop the Collection
                         </span>
+                        <span className="absolute inset-0 z-10 flex items-center justify-center translate-y-12 transition-transform duration-300 group-hover:translate-y-0 text-crimson font-bold">
+                            Shop the Collection
+                        </span>
+                        <div className="absolute inset-0 h-full w-full scale-0 rounded-full bg-white transition-transform duration-500 ease-in-out group-hover:scale-100 opacity-10" />
                     </button>
                 </div>
             </div>

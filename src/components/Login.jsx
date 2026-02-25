@@ -69,12 +69,15 @@ export default function Login() {
 
                         <button
                             type="submit"
-                            className="group relative w-full overflow-hidden rounded-lg bg-white text-obsidian px-6 py-4 mt-2 font-heading font-bold tracking-wide text-sm transition-all hover:shadow-[0_0_20px_rgba(220,38,38,0.5)] cursor-pointer"
+                            className="group relative w-full overflow-hidden rounded-lg bg-white text-obsidian px-6 py-4 mt-2 font-heading font-bold tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_-5px_rgba(220,38,38,0.8)] hover:-translate-y-1 cursor-pointer"
                         >
-                            <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                            <span className="relative z-10 block transition-transform duration-300 group-hover:-translate-y-12">
                                 {isLogin ? "Sign In" : "Register"}
                             </span>
-                            <div className="absolute inset-0 h-full w-full scale-0 rounded-lg bg-gradient-to-r from-crimson to-ruby transition-transform duration-300 ease-out group-hover:scale-100" />
+                            <span className="absolute inset-0 z-10 flex items-center justify-center translate-y-12 transition-transform duration-300 group-hover:translate-y-0 text-white font-bold">
+                                {isLogin ? "Sign In" : "Register"}
+                            </span>
+                            <div className="absolute inset-0 h-full w-full scale-0 rounded-lg bg-gradient-to-r from-crimson to-ruby transition-transform duration-500 ease-in-out group-hover:scale-100" />
                         </button>
                     </form>
 

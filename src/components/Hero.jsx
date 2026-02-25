@@ -49,6 +49,57 @@ function RotatingGlassTorus() {
     );
 }
 
+function BangleCluster() {
+    const groupRef = useReactRef();
+
+    useFrame((state) => {
+        if (!groupRef.current) return;
+        const time = state.clock.getElapsedTime();
+        // Slow rotation of the entire cluster
+        groupRef.current.rotation.y = time * 0.1;
+        groupRef.current.position.y = Math.sin(time * 0.5) * 0.5;
+
+        // Animate individual bangles within the cluster
+        groupRef.current.children.forEach((child, i) => {
+            child.rotation.x = time * (0.2 + i * 0.05);
+            child.rotation.z = time * (0.1 + i * 0.1);
+        });
+    });
+
+    return (
+        <group ref={groupRef} position={[4, 0, -2]}>
+            {/* Main large bangle */}
+            <mesh position={[0, 0, 0]} rotation={[0.5, 0.2, 0]}>
+                <torusGeometry args={[1.2, 0.15, 64, 128]} />
+                <MeshTransmissionMaterial
+                    backside samples={4} thickness={0.5} chromaticAberration={0.6} anisotropy={0.3}
+                    distortion={0.3} distortionScale={0.5} temporalDistortion={0.2} iridescence={1}
+                    iridescenceIOR={1.5} iridescenceThicknessRange={[100, 400]} color="#ffffff"
+                    attenuationDistance={1} attenuationColor="#DC2626"
+                />
+            </mesh>
+
+            {/* Secondary ruby bangle */}
+            <mesh position={[0.5, 0.8, -1]} rotation={[-0.2, 0.5, 0.1]}>
+                <torusGeometry args={[0.8, 0.1, 64, 100]} />
+                <MeshTransmissionMaterial
+                    backside samples={4} thickness={0.3} chromaticAberration={0.4}
+                    color="#881337" attenuationDistance={2} attenuationColor="#DC2626"
+                />
+            </mesh>
+
+            {/* Tertiary crimson bangle */}
+            <mesh position={[-0.8, -0.6, 0.5]} rotation={[0.8, -0.4, 0.3]}>
+                <torusGeometry args={[0.6, 0.08, 64, 100]} />
+                <MeshTransmissionMaterial
+                    backside samples={4} thickness={0.3} chromaticAberration={0.4}
+                    color="#DC2626" attenuationDistance={2} attenuationColor="#881337"
+                />
+            </mesh>
+        </group>
+    );
+}
+
 export default function Hero() {
     const containerRef = useRef(null);
     const title1Ref = useRef(null);
@@ -134,7 +185,15 @@ export default function Hero() {
                     <ambientLight intensity={0.2} />
                     <spotLight position={[5, 10, 5]} angle={0.25} penumbra={1} intensity={2} color="#DC2626" />
                     <spotLight position={[-5, -10, -5]} angle={0.25} penumbra={1} intensity={2} color="#881337" />
-                    <RotatingGlassTorus />
+
+                    {/* Center main Torus slightly shifted left */}
+                    <group position={[-1, 0, 0]}>
+                        <RotatingGlassTorus />
+                    </group>
+
+                    {/* Right side cinematic bangle cluster */}
+                    <BangleCluster />
+
                     <Environment preset="city" />
                 </Canvas>
             </div>
@@ -161,14 +220,17 @@ export default function Hero() {
 
                 <div ref={btnRef} className="mt-10 lg:mt-16 inline-block">
                     <button
+                        ref={btnRef}
                         onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-                        className="group relative cursor-pointer overflow-hidden rounded-full bg-white text-obsidian px-10 py-5 font-heading font-medium tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_-10px_rgba(220,38,38,0.5)]"
+                        className="group relative overflow-hidden rounded-full bg-white text-obsidian px-12 py-6 font-heading font-medium tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_-5px_rgba(220,38,38,0.8)] hover:-translate-y-1 cursor-pointer"
                     >
-                        <span className="relative z-10 pointer-events-none transition-colors duration-300 group-hover:text-transparent">Explore the Exclusive Collection</span>
-                        <div className="absolute inset-0 h-full w-full scale-0 rounded-full bg-gradient-to-r from-crimson to-ruby transition-transform duration-300 ease-out group-hover:scale-100 pointer-events-none" />
-                        <span className="absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 text-white pointer-events-none">
+                        <span className="relative z-10 block transition-transform duration-300 group-hover:-translate-y-12">
                             Explore the Exclusive Collection
                         </span>
+                        <span className="absolute inset-0 z-10 flex items-center justify-center translate-y-12 transition-transform duration-300 group-hover:translate-y-0 text-white font-bold">
+                            Explore the Exclusive Collection
+                        </span>
+                        <div className="absolute inset-0 h-full w-full scale-0 rounded-full bg-gradient-to-r from-crimson to-ruby transition-transform duration-500 ease-in-out group-hover:scale-100 opacity-90" />
                     </button>
                 </div>
             </div>
