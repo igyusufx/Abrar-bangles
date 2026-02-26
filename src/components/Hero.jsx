@@ -71,29 +71,28 @@ function BangleCluster() {
             {/* Main large bangle */}
             <mesh position={[0, 0, 0]} rotation={[0.5, 0.2, 0]}>
                 <torusGeometry args={[1.2, 0.15, 64, 128]} />
-                <MeshTransmissionMaterial
-                    backside samples={4} thickness={0.5} chromaticAberration={0.6} anisotropy={0.3}
-                    distortion={0.3} distortionScale={0.5} temporalDistortion={0.2} iridescence={1}
-                    iridescenceIOR={1.5} iridescenceThicknessRange={[100, 400]} color="#ffffff"
-                    attenuationDistance={1} attenuationColor="#DC2626"
+                <meshPhysicalMaterial
+                    transmission={1} roughness={0} thickness={0.5}
+                    ior={1.5} clearcoat={1} clearcoatRoughness={0.1}
+                    color="#ffffff" attenuationDistance={1} attenuationColor="#DC2626"
                 />
             </mesh>
 
             {/* Secondary ruby bangle */}
             <mesh position={[0.5, 0.8, -1]} rotation={[-0.2, 0.5, 0.1]}>
                 <torusGeometry args={[0.8, 0.1, 64, 100]} />
-                <MeshTransmissionMaterial
-                    backside samples={4} thickness={0.3} chromaticAberration={0.4}
-                    color="#881337" attenuationDistance={2} attenuationColor="#DC2626"
+                <meshPhysicalMaterial
+                    transmission={1} roughness={0.05} thickness={0.3}
+                    ior={1.5} color="#881337" attenuationDistance={2} attenuationColor="#DC2626"
                 />
             </mesh>
 
             {/* Tertiary crimson bangle */}
             <mesh position={[-0.8, -0.6, 0.5]} rotation={[0.8, -0.4, 0.3]}>
                 <torusGeometry args={[0.6, 0.08, 64, 100]} />
-                <MeshTransmissionMaterial
-                    backside samples={4} thickness={0.3} chromaticAberration={0.4}
-                    color="#DC2626" attenuationDistance={2} attenuationColor="#881337"
+                <meshPhysicalMaterial
+                    transmission={1} roughness={0.1} thickness={0.3}
+                    ior={1.5} color="#DC2626" attenuationDistance={2} attenuationColor="#881337"
                 />
             </mesh>
         </group>
@@ -180,8 +179,13 @@ export default function Hero() {
             </div>
 
             {/* 3D Background */}
-            <div ref={canvasRef} className="absolute inset-0 z-0 select-none pointer-events-none">
-                <Canvas camera={{ position: [0, 0, 5], fov: 45 }} gl={{ antialias: true, alpha: true }}>
+            <div ref={canvasRef} className="absolute inset-0 z-0 select-none pointer-events-none" style={{ willChange: 'opacity' }}>
+                <Canvas
+                    camera={{ position: [0, 0, 5], fov: 45 }}
+                    gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+                    dpr={[1, 1.5]}
+                    performance={{ min: 0.5 }}
+                >
                     <ambientLight intensity={0.2} />
                     <spotLight position={[5, 10, 5]} angle={0.25} penumbra={1} intensity={2} color="#DC2626" />
                     <spotLight position={[-5, -10, -5]} angle={0.25} penumbra={1} intensity={2} color="#881337" />

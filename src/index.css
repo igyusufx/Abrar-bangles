@@ -25,7 +25,8 @@
 }
 
 /* Lenis Recommended Styles */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -43,4 +44,65 @@ html.lenis, html.lenis body {
 
 .lenis.lenis-smooth iframe {
   pointer-events: none;
+}
+
+/* ─── Performance: GPU Layer Promotion ─────────────────────────────────── */
+
+/* Promote animated elements to their own GPU compositing layer */
+[data-animate],
+canvas,
+.feature-card {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* ─── Scrollbar: Premium Dark ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #DC2626;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #881337;
+}
+
+/* ─── Buttons: Realistic interaction states ──────────────────────────────── */
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+button:active {
+  transform: scale(0.96) !important;
+  transition: transform 0.1s ease !important;
+}
+
+/* ─── Smooth image & SVG rendering ──────────────────────────────────────── */
+img,
+svg {
+  image-rendering: crisp-edges;
+  backface-visibility: hidden;
+}
+
+/* ─── Font smoothing ─────────────────────────────────────────────────────── */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ─── Remove all layout-triggering transitions ───────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
